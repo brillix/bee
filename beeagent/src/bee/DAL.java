@@ -1,5 +1,5 @@
 /*
-//The DAL - DATA access Layer for the agent 
+//The DAL Class - DATA access Layer for the agent 
 //22.4.14  baruch@brillix.co.il create
 // 26.4.2014 add RunQueryGetString and RunQueryGetNum
 //
@@ -24,16 +24,12 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 
-
-
 public class DAL {
 	
 	  // public string for Results
-	   static String SQLResult;
-	   static String SQLResultStringCol = "<result>";
-	   static String SQLResultString = "<results>";
+	    
 	   //main empty for now
-	public static void main( String args[] )
+	public  void main( String args[] )
 	 {
 		//runQuery();
 	 }// end main
@@ -42,6 +38,9 @@ public class DAL {
 	{
 		Connection conn = null;
 		java.sql.Statement stmt = null;
+		String SQLResult;
+	    String SQLResultStringCol = "<result>";
+	    String SQLResultString = "<results>";
 		try{
 		      //STEP 2: Register JDBC driver   oracle.jdbc.driver.OracleDriver
 		      Class.forName(DBDriver);
@@ -94,54 +93,7 @@ public class DAL {
 	}// end RunQuery
 		
 	///run query get string 
-	public String RunQueryGetString(String DBDriver,String SqlString,String DBUrl,String User,String Pass )
-	{
-		//STEP 1: Declare Connection 
-		Connection conn = null;
-		java.sql.Statement stmt = null;
-		try{
-		      //STEP 2: Register JDBC driver   oracle.jdbc.driver.OracleDriver
-		      Class.forName(DBDriver);
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection(DBUrl, User, Pass);
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
-		      String sql = SqlString;
-		      ResultSet rs = stmt.executeQuery(sql);
-		      //STEP 5: Extract data from result set
-		      while(rs.next()){
-		         //Retrieve by column name
-		         SQLResult = rs.getString("RESULT");
-		         //Create Result string from the results values
-		         SQLResultString = SQLResultString +"<result>" + SQLResult + "</result>";
-		      }
-		      SQLResultString = SQLResultString + "</results>";
-		      rs.close();
-		   }catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		      }// do nothing
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
-		
-		   return SQLResultString;
 
-	}//end RunQueryGetString
-		
 		
 }// end public class DAL  
 
